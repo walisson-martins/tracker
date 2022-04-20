@@ -1,5 +1,5 @@
 <template>
-  <div class="box has-text-weight-bold">
+  <div class="box has-text-weight-bold" :style="estilos">
     <slot></slot>
   </div>
 </template>
@@ -8,11 +8,12 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "BOx",
+  data() {
+    return {
+      estilos: {
+        backgroundColor: "#faf0ca",
+      },
+    };
+  },
 });
 </script>
-
-<style scoped>
-.box {
-  background: #faf0ca;
-}
-</style>

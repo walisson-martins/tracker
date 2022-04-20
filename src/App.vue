@@ -1,9 +1,12 @@
 <template>
-  <main class="columns is-gapless is-multiline">
+  <main
+    class="columns is-gapless is-multiline"
+    :class="{ 'modo-escuro': modoEscuroAtivo }"
+  >
     <div class="column is-one-quarter">
-      <BarraLateral />
+      <BarraLateral @aoTemaAlterado="trocarTema" />
     </div>
-    <div class="column is-tree-quarter">
+    <div class="column is-tree-quarter conteudo">
       <MyFormulario @aoSalvarTarefa="salvarTarefa" />
       <div class="lista">
         <TaRefa
@@ -35,6 +38,7 @@ export default defineComponent({
   data() {
     return {
       tarefas: [] as ITarefa[],
+      modoEscuroAtivo: false,
     };
   },
   computed: {
@@ -46,6 +50,9 @@ export default defineComponent({
     salvarTarefa(tarefa: ITarefa): void {
       this.tarefas.push(tarefa);
     },
+    trocarTema(modoEscuroAtivo: boolean): void {
+      this.modoEscuroAtivo = modoEscuroAtivo;
+    },
   },
 });
 </script>
@@ -53,5 +60,19 @@ export default defineComponent({
 <style>
 .lista {
   padding: 1.25rem;
+}
+
+main {
+  --bg-primary: #fff;
+  --text-primary: #000;
+}
+
+main.modo-escuro {
+  --bg-primary: #2b2d42;
+  --text-primary: #ddd;
+}
+
+.conteudo {
+  background: var(--bg-primary);
 }
 </style>
