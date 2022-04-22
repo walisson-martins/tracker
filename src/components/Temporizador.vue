@@ -3,13 +3,13 @@
     <Cronometro :timeInSeconds="timeInSeconds" />
     <button class="button" @click="init()" :disabled="cronometroRodando">
       <span class="icon">
-        <i class="fas fa-play"></i>
+        <i class="fas fa-play" style="color: #2aca2a"></i>
       </span>
       <span>play</span>
     </button>
     <button class="button" @click="finish()" :disabled="!cronometroRodando">
       <span class="icon">
-        <i class="fas fa-stop"></i>
+        <i class="fas fa-stop" style="color: #f00909"></i>
       </span>
       <span>stop</span>
     </button>
