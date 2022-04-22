@@ -1,6 +1,6 @@
 <template>
   <div class="is-flex is-align-items-center is-justify-content-space-between">
-    <CronoMetro :timeInSeconds="timeInSeconds" />
+    <Cronometro :timeInSeconds="timeInSeconds" />
     <button class="button" @click="init()" :disabled="cronometroRodando">
       <span class="icon">
         <i class="fas fa-play"></i>
@@ -18,13 +18,14 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import CronoMetro from "../components/Cronometro.vue";
+import Cronometro from "../components/Cronometro.vue";
 
 export default defineComponent({
-  name: "TempoRizador",
+  // eslint-disable-next-line vue/multi-word-component-names
+  name: "Temporizador",
   emits: ["aoTemporizadorFinalizado"],
   components: {
-    CronoMetro,
+    Cronometro,
   },
   data() {
     return {

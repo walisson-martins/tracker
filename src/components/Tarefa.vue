@@ -1,27 +1,28 @@
 <template>
-  <BOx>
+  <Box>
     <div class="columns">
       <div class="column is-7">
         {{ tarefa.descricao || "Tarefa sem descrição" }}
       </div>
       <div class="column">
-        <CronoMetro :timeInSeconds="tarefa.duracaoEmSegundos" />
+        <Cronometro :timeInSeconds="tarefa.duracaoEmSegundos" />
       </div>
     </div>
-  </BOx>
+  </Box>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
-import CronoMetro from "../components/Cronometro.vue";
+import Cronometro from "../components/Cronometro.vue";
 import ITarefa from "../interfaces/ITarefa";
-import BOx from "../components/Box.vue";
+import Box from "../components/Box.vue";
 
 export default defineComponent({
-  name: "TaRefa",
+  // eslint-disable-next-line vue/multi-word-component-names
+  name: "Tarefa",
   components: {
-    CronoMetro,
-    BOx,
+    Cronometro,
+    Box,
   },
   props: {
     tarefa: {

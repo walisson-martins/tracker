@@ -13,7 +13,7 @@
           v-model="descricao"
         />
         <div class="column">
-          <TempoRizador @aoTemporizadorFinalizado="finalizarTarefa" />
+          <Temporizador @aoTemporizadorFinalizado="finalizarTarefa" />
         </div>
       </div>
     </div>
@@ -22,13 +22,14 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import TempoRizador from "../components/Temporizador.vue";
+import Temporizador from "../components/Temporizador.vue";
 
 export default defineComponent({
-  name: "MyFormulario",
+  // eslint-disable-next-line vue/multi-word-component-names
+  name: "Formulario",
   emits: ["aoSalvarTarefa"],
   components: {
-    TempoRizador,
+    Temporizador,
   },
   data() {
     return {
