@@ -37,10 +37,11 @@
 <script lang="ts">
 import { computed, defineComponent } from "vue";
 import Temporizador from "../components/Temporizador.vue";
-import { useStore } from "vuex";
 import { key } from "../store/index";
 import IProjeto from "../interfaces/IProjeto";
-
+import { NOTIFICAR } from "../store/tipo-mutacoes";
+import { TipoNotificacao } from "@/interfaces/INotificacao";
+import { useStore } from "@/store/index";
 export default defineComponent({
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Formulario",
@@ -64,12 +65,23 @@ export default defineComponent({
         ),
       });
       this.descricao = "";
+
+      const projeto = this.projetos.find((p) => p.id == this.idProjeto);
+      if (!projeto) {
+        this.store.commit(NOTIFICAR, {
+          titulo: "Ops!",
+          texto: "Selecione um projeto antes de finalizar a tarefa!",
+          tipo: TipoNotificacao.FALHA,
+        });
+        return;
+      }
     },
   },
   setup() {
-    const store = useStore(key);
+    const store = useStore();
     return {
       projetos: computed(() => store.state.projetos),
+      store,
     };
   },
 });

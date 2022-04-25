@@ -21,7 +21,10 @@
 import { defineComponent } from "vue";
 import { useStore } from "@/store/index";
 import { ALTERA_PROJETO, ADICIONA_PROJETO } from "@/store/tipo-mutacoes";
-
+// import { TipoNotificacao } from "@/interfaces/INotificacao";
+// import { notificacaoMixin } from "../../mixins/notificar";
+import useNotificador from "@/hooks/notificador";
+import { TipoNotificacao } from "@/interfaces/INotificacao";
 export default defineComponent({
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Formulario",
@@ -43,6 +46,7 @@ export default defineComponent({
       nomeDoProjeto: "",
     };
   },
+  // mixins: [notificacaoMixin],
   methods: {
     salvar() {
       if (this.id) {
@@ -55,13 +59,22 @@ export default defineComponent({
       }
 
       this.nomeDoProjeto = "";
+      this.notificar(
+        TipoNotificacao.SUCESSO,
+        "Excelente",
+        "Foi salvo com sucesso"
+      );
       this.$router.push("/projetos");
     },
   },
   setup() {
     const store = useStore();
+
+    const { notificar } = useNotificador();
+
     return {
       store,
+      notificar,
     };
   },
 });
