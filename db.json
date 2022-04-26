@@ -4,5 +4,39 @@
       "id": 1,
       "name": "2"
     }
+  ],
+  "tarefas": [
+    {
+      "id": 1,
+      "duracaoEmSegundos": 120,
+      "descricao": "Configuração do env 2",
+      "projeto": {
+        "id": 1,
+        "name": "Estudar Angular"
+      }
+    },
+    {
+      "duracaoEmSegundos": 2,
+      "descricao": "refatoração do vue",
+      "id": 2
+    },
+    {
+      "duracaoEmSegundos": 1,
+      "descricao": "by",
+      "projeto": {
+        "id": 1,
+        "name": "2"
+      },
+      "id": 3
+    },
+    {
+      "duracaoEmSegundos": 2,
+      "descricao": "estudos pessoais 2",
+      "projeto": {
+        "id": 1,
+        "name": "2"
+      },
+      "id": 4
+    }
   ]
 }
