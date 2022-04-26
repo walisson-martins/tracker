@@ -18,13 +18,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 import { useStore } from "@/store/index";
 // import { TipoNotificacao } from "@/interfaces/INotificacao";
 // import { notificacaoMixin } from "../../mixins/notificar";
 import useNotificador from "@/hooks/notificador";
 import { TipoNotificacao } from "@/interfaces/INotificacao";
 import { ALTERAR_PROJETO, CADASTRAR_PROJETO } from "@/store/tipo-acoes";
+import { useRouter } from "vue-router";
 export default defineComponent({
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Formulario",
@@ -33,55 +34,64 @@ export default defineComponent({
       type: String,
     },
   },
-  mounted() {
-    if (this.id) {
-      const projeto = this.store.state.projeto.projetos.find(
-        (proj) => proj.id == this.id
-      );
-      this.nomeDoProjeto = projeto?.name || "";
-    }
-  },
-  data() {
-    return {
-      nomeDoProjeto: "",
-    };
-  },
+  // mounted() {
+  //   if (this.id) {
+  //     const projeto = this.store.state.projeto.projetos.find(
+  //       (proj) => proj.id == this.id
+  //     );
+  //     this.nomeDoProjeto = projeto?.name || "";
+  //   }
+  // },
+  // data() {
+  //   return {
+  //     nomeDoProjeto: "",
+  //   };
+  // },
   // mixins: [notificacaoMixin],
-  methods: {
-    salvar() {
-      if (this.id) {
-        this.store
-          .dispatch(ALTERAR_PROJETO, {
-            id: this.id,
-            name: this.nomeDoProjeto,
-          })
-          .then(() => {
-            this.msgSucesso();
-          });
-      } else {
-        this.store.dispatch(CADASTRAR_PROJETO, this.nomeDoProjeto).then(() => {
-          this.msgSucesso();
-        });
-      }
-    },
-    msgSucesso() {
-      this.nomeDoProjeto = "";
-      this.notificar(
-        TipoNotificacao.SUCESSO,
-        "Excelente",
-        "Foi salvo com sucesso"
-      );
-      this.$router.push("/projetos");
-    },
-  },
-  setup() {
-    const store = useStore();
+  // methods: {
 
+  // },
+  setup(props) {
+    const router = useRouter();
+
+    const store = useStore();
     const { notificar } = useNotificador();
 
+    const nomeDoProjeto = ref("");
+
+    if (props.id) {
+      const projeto = store.state.projeto.projetos.find(
+        (proj) => proj.id == props.id
+      );
+      nomeDoProjeto.value = projeto?.name || "";
+    }
+
+    const msgSucesso = () => {
+      nomeDoProjeto.value = "";
+      notificar(TipoNotificacao.SUCESSO, "Excelente", "Foi salvo com sucesso");
+      router.push("/projetos");
+    };
+
+    const salvar = () => {
+      if (props.id) {
+        store
+          .dispatch(ALTERAR_PROJETO, {
+            id: props.id,
+            name: nomeDoProjeto.value,
+          })
+          .then(() => {
+            msgSucesso();
+          });
+      } else {
+        store.dispatch(CADASTRAR_PROJETO, nomeDoProjeto.value).then(() => {
+          msgSucesso();
+        });
+      }
+    };
+
     return {
-      store,
-      notificar,
+      nomeDoProjeto,
+      salvar,
     };
   },
 });

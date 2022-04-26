@@ -2,14 +2,18 @@
   "projetos": [
     {
       "id": 1,
-      "name": "2"
+      "name": "plano de estudos 2"
+    },
+    {
+      "id": 2,
+      "name": "plano"
     }
   ],
   "tarefas": [
     {
       "id": 1,
       "duracaoEmSegundos": 120,
-      "descricao": "Configuração do env 2",
+      "descricao": "Configuração do env",
       "projeto": {
         "id": 1,
         "name": "Estudar Angular"
@@ -37,6 +41,15 @@
         "name": "2"
       },
       "id": 4
+    },
+    {
+      "duracaoEmSegundos": 3,
+      "descricao": "tes",
+      "projeto": {
+        "id": 1,
+        "name": "plano de estudos 2"
+      },
+      "id": 5
     }
   ]
 }

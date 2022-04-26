@@ -35,9 +35,8 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, ref } from "vue";
 import Temporizador from "../components/Temporizador.vue";
-import { key } from "../store/index";
 import IProjeto from "../interfaces/IProjeto";
 import { NOTIFICAR } from "../store/tipo-mutacoes";
 import { TipoNotificacao } from "@/interfaces/INotificacao";
@@ -49,39 +48,48 @@ export default defineComponent({
   components: {
     Temporizador,
   },
-  data() {
-    return {
-      descricao: "",
-      idProjeto: "",
-    };
-  },
-  methods: {
-    salvarTarefa(tempoDecorrido: number): void {
-      this.$emit("aoSalvarTarefa", {
+  // data() {
+  //   return {
+  //     descricao: "",
+  //     idProjeto: "",
+  //   };
+  // },
+  // methods: {
+
+  // },
+  setup(props, { emit }) {
+    const store = useStore();
+
+    const descricao = ref("");
+    const idProjeto = ref("");
+    const projetos = computed(() => store.state.projeto.projetos);
+
+    const salvarTarefa = (tempoDecorrido: number): void => {
+      emit("aoSalvarTarefa", {
         duracaoEmSegundos: tempoDecorrido,
-        descricao: this.descricao,
-        projeto: this.projetos.find(
-          (proj: IProjeto) => proj.id === this.idProjeto
+        descricao: descricao.value,
+        projeto: projetos.value.find(
+          (proj: IProjeto) => proj.id === idProjeto.value
         ),
       });
-      this.descricao = "";
 
-      const projeto = this.projetos.find((p) => p.id == this.idProjeto);
+      descricao.value = "";
+
+      const projeto = projetos.value.find((p) => p.id == idProjeto.value);
       if (!projeto) {
-        this.store.commit(NOTIFICAR, {
+        store.commit(NOTIFICAR, {
           titulo: "Ops!",
           texto: "Selecione um projeto antes de finalizar a tarefa!",
           tipo: TipoNotificacao.FALHA,
         });
         return;
       }
-    },
-  },
-  setup() {
-    const store = useStore();
+    };
     return {
-      projetos: computed(() => store.state.projeto.projetos),
-      store,
+      descricao,
+      idProjeto,
+      projetos,
+      salvarTarefa,
     };
   },
 });
